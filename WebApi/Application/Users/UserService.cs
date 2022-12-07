@@ -15,6 +15,11 @@ namespace Application.Users
             _context = context;
         }
 
+        public async Task<IEnumerable<User>> GetAll()
+        {
+            return await _context.Users.ToListAsync();
+        }
+
         public async Task<User?> GetByEmail(string? Email)
         {
             return await _context.Users.FirstOrDefaultAsync(x => x.Email == Email);

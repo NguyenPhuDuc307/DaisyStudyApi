@@ -42,4 +42,11 @@ public class UsersController : ControllerBase
         }
         return Ok(result);
     }
+
+    [HttpGet("getall")]
+    public async Task<IActionResult> GetAll()
+    {
+        var result = await _userService.GetAll();
+        return Ok(result);
+    }
 }

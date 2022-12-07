@@ -5,9 +5,10 @@ namespace Application.Users
 {
     public interface IUserService
     {
-        Task<int> Register (RegisterRequest request);
-        Task<User?> Login (LoginRequest request);
-        Task<User?> GetByEmail (string Email);
-        Task<User?> GetById (Guid Id);
+        Task<int> Register(RegisterRequest request);
+        Task<User?> Login(LoginRequest request);
+        Task<IEnumerable<User>> GetAll();
+        Task<User?> GetByEmail(string Email);
+        Task<User?> GetById(Guid Id);
     }
 }
