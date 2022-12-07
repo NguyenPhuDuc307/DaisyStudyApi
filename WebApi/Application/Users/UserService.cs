@@ -15,7 +15,7 @@ namespace Application.Users
             _context = context;
         }
 
-        public async Task<User?> GetByEmail(string Email)
+        public async Task<User?> GetByEmail(string? Email)
         {
             return await _context.Users.FirstOrDefaultAsync(x => x.Email == Email);
         }
@@ -28,7 +28,7 @@ namespace Application.Users
         public async Task<User?> Login(LoginRequest request)
         {
             if(request.Password == null) throw new Exception("Vui lòng nhập Password");
-            var user = await _context.Users.FindAsync(request.Email);
+            var user = await GetByEmail(request.Email);
             if (user == null) throw new Exception("Tài khoản không tồn tại");
             if (MD5Encrypt.Encrypt(request.Password) == user.Password) return user;
             else throw new Exception("Mật khẩu không chính xác");

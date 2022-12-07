@@ -28,4 +28,18 @@ public class UsersController : ControllerBase
         }
         return Ok();
     }
+
+    [HttpPost("login")]
+    public async Task<IActionResult> Login([FromBody] LoginRequest request)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        var result = await _userService.Login(request);
+        if (result == null)
+        {
+            return BadRequest();
+        }
+        return Ok(result);
+    }
 }
