@@ -5,15 +5,22 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<DaisyStudyDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString(SystemConstants.MainConnectionString)
-    ?? throw new InvalidOperationException("Connection string 'DaisyStudyDbContext' not found.")));
+builder.Services.AddDbContext<DaisyStudyDbContext>(
+        options => options.UseSqlServer(builder.Configuration.GetConnectionString(SystemConstants.MainConnectionString) 
+            ?? throw new InvalidOperationException("Connection string 'DaisyStudyDbContext' not found."),
+        providerOptions => providerOptions.EnableRetryOnFailure()));
 
 // Declare DI
 builder.Services.AddTransient<IUserService, UserService>();
 
+builder.Services.AddCors(c =>
+            {
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
+            });
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
 
 builder.Services.AddSwaggerGen(c =>
 {
@@ -35,7 +42,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthorization();
+app.UseAuthentication();
+app.UseAuthorization(); // Add it here
 
 app.UseSwagger();
 

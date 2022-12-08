@@ -9,7 +9,7 @@ namespace Data.Entities
         public int CommentId { set; get; }
         public int LessonId { set; get; }
         public Lesson? Lesson { set; get; }
-        public Guid UserId { set; get; }
+        public string? UserId { set; get; }
         public User? AppUser { set; get; }
         public string? Content { set; get; }
         public DateTime DateTimeCreated { set; get; }

@@ -5,7 +5,7 @@ namespace Data.Entities
 {
     public class User
     {
-        public Guid UserId { get; set; }
+        public int UserId { get; set; }
         public string? FullName { get; set; }
         public DateTime Dob { get; set; }
         public string? Email { get; set; }
@@ -22,6 +22,8 @@ namespace Data.Entities
 
             builder.HasKey(x => x.UserId);
 
+            builder.Property(x => x.UserId)
+                   .UseIdentityColumn();
             builder.Property(x => x.FullName)
                    .IsRequired()
                    .HasMaxLength(255);

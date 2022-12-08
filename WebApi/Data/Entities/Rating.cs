@@ -8,7 +8,7 @@ namespace Data.Entities
     {
         public int CourseId { set; get; }
         public Course? Course { set; get; }
-        public Guid UserId { set; get; }
+        public int UserId { set; get; }
         public User? User { set; get; }
         public int Stars { set; get; }
         public string? Message { set; get; }

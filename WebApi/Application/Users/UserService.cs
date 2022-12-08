@@ -15,27 +15,61 @@ namespace Application.Users
             _context = context;
         }
 
-        public async Task<IEnumerable<User>> GetAll()
+        public async Task<IEnumerable<UserViewModel>> GetAll()
         {
-            return await _context.Users.ToListAsync();
+            return await _context.Users.Select(x => new UserViewModel()
+            {
+                UserId = x.UserId,
+                FullName = x.FullName,
+                Email = x.Email,
+                Dob = x.Dob
+            }).ToListAsync();
         }
 
-        public async Task<User?> GetByEmail(string? Email)
+        public async Task<UserViewModel?> GetByEmail(string? Email)
         {
-            return await _context.Users.FirstOrDefaultAsync(x => x.Email == Email);
-        }
-
-        public async Task<User?> GetById(Guid Id)
-        {
-            return await _context.Users.FindAsync(Id);
-        }
-
-        public async Task<User?> Login(LoginRequest request)
-        {
-            if(request.Password == null) throw new Exception("Vui lòng nhập Password");
-            var user = await GetByEmail(request.Email);
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == Email);
             if (user == null) throw new Exception("Tài khoản không tồn tại");
-            if (MD5Encrypt.Encrypt(request.Password) == user.Password) return user;
+            var userViewModel = new UserViewModel()
+            {
+                UserId = user.UserId,
+                FullName = user.FullName,
+                Email = user.Email,
+                Dob = user.Dob
+            };
+            return userViewModel;
+        }
+
+        public async Task<UserViewModel?> GetById(int Id)
+        {
+            var user = await _context.Users.FindAsync(Id);
+            if (user == null) throw new Exception("Tài khoản không tồn tại");
+            var userViewModel = new UserViewModel()
+            {
+                UserId = user.UserId,
+                FullName = user.FullName,
+                Email = user.Email,
+                Dob = user.Dob
+            };
+            return userViewModel;
+        }
+
+        public async Task<UserViewModel?> Login(LoginRequest request)
+        {
+            if (request.Password == null) throw new Exception("Vui lòng nhập Password");
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == request.Email);
+            if (user == null) throw new Exception("Tài khoản không tồn tại");
+            if (MD5Encrypt.Encrypt(request.Password) == user.Password)
+            {
+                var userViewModel = new UserViewModel()
+                {
+                    UserId = user.UserId,
+                    FullName = user.FullName,
+                    Email = user.Email,
+                    Dob = user.Dob
+                };
+                return userViewModel;
+            }
             else throw new Exception("Mật khẩu không chính xác");
 
         }
@@ -44,7 +78,7 @@ namespace Application.Users
         {
             var _user = await _context.Users.FirstOrDefaultAsync(x => x.Email == request.Email);
             if (_user != null) throw new Exception("Địa chỉ email đã tồn tại");
-            if(request.Password == null) throw new Exception("Vui lòng nhập Password");
+            if (request.Password == null) throw new Exception("Vui lòng nhập Password");
             User user = new User()
             {
                 FullName = request.FullName,

@@ -3,21 +3,12 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:27594",
-      "sslPort": 44377
+      "applicationUrl": "http://localhost:5000",
+      "sslPort": 44316
     }
   },
   "profiles": {
-    "http": {
-      "commandName": "Project",
-      "launchBrowser": true,
-      "launchUrl": "swagger",
-      "applicationUrl": "http://localhost:5000",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
-    },
-    "https": {
+    "DaisyStudy.BackendApi": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",
