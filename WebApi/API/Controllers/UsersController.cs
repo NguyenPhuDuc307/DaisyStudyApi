@@ -36,10 +36,6 @@ public class UsersController : ControllerBase
             return BadRequest(ModelState);
 
         var result = await _userService.Login(request);
-        if (result == null)
-        {
-            return BadRequest();
-        }
         return Ok(result);
     }
 

@@ -15,15 +15,16 @@ namespace Application.Users
             _context = context;
         }
 
-        public async Task<IEnumerable<UserViewModel>> GetAll()
+        public async Task<ApiResult<IEnumerable<UserViewModel>>> GetAll()
         {
-            return await _context.Users.Select(x => new UserViewModel()
+            var userViewModels = await _context.Users.Select(x => new UserViewModel()
             {
                 UserId = x.UserId,
                 FullName = x.FullName,
                 Email = x.Email,
                 Dob = x.Dob
             }).ToListAsync();
+            return new ApiSuccessResult<IEnumerable<UserViewModel>>(userViewModels);
         }
 
         public async Task<UserViewModel?> GetByEmail(string? Email)
@@ -54,11 +55,11 @@ namespace Application.Users
             return userViewModel;
         }
 
-        public async Task<UserViewModel?> Login(LoginRequest request)
+        public async Task<ApiResult<UserViewModel?>> Login(LoginRequest request)
         {
-            if (request.Password == null) throw new Exception("Vui lòng nhập Password");
+            if (string.IsNullOrEmpty(request.Password) || string.IsNullOrWhiteSpace(request.Password)) return new ApiErrorResult<UserViewModel?>("Thông tin đăng nhập không được bỏ trống");
             var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == request.Email);
-            if (user == null) throw new Exception("Tài khoản không tồn tại");
+            if (user == null) return new ApiErrorResult<UserViewModel?>("Tài khoản không tồn tại");
             if (MD5Encrypt.Encrypt(request.Password) == user.Password)
             {
                 var userViewModel = new UserViewModel()
@@ -68,9 +69,9 @@ namespace Application.Users
                     Email = user.Email,
                     Dob = user.Dob
                 };
-                return userViewModel;
+                return new ApiSuccessResult<UserViewModel?>(userViewModel);
             }
-            else throw new Exception("Mật khẩu không chính xác");
+            else return new ApiErrorResult<UserViewModel?>("Mật khẩu không chính xác");
 
         }
 

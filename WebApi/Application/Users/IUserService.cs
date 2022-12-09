@@ -6,8 +6,8 @@ namespace Application.Users
     public interface IUserService
     {
         Task<int> Register(RegisterRequest request);
-        Task<UserViewModel?> Login(LoginRequest request);
-        Task<IEnumerable<UserViewModel>> GetAll();
+        Task<ApiResult<UserViewModel?>> Login(LoginRequest request);
+        Task<ApiResult<IEnumerable<UserViewModel>>> GetAll();
         Task<UserViewModel?> GetByEmail(string Email);
         Task<UserViewModel?> GetById(int Id);
     }
