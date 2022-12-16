@@ -25,8 +25,6 @@ namespace Data.Entities
 
             builder.HasKey(x => x.CourseId);
 
-            builder.Property(x => x.CourseId)
-                   .UseIdentityColumn();
             builder.Property(x => x.CourseName)
                    .IsRequired()
                    .HasMaxLength(255);

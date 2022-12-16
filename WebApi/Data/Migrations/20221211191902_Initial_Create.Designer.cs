@@ -4,6 +4,7 @@ using Data.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(DaisyStudyDbContext))]
-    partial class DaisyStudyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221211191902_Initial_Create")]
+    partial class Initial_Create
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -186,57 +188,6 @@ namespace Data.Migrations
                     b.HasIndex("CourseId");
 
                     b.ToTable("Lessons", (string)null);
-                });
-
-            modelBuilder.Entity("Data.Entities.New", b =>
-                {
-                    b.Property<int>("NewId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("NewId"), 1L, 1);
-
-                    b.Property<string>("Image")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("NewUrl")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.HasKey("NewId");
-
-                    b.ToTable("News", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            NewId = 1,
-                            Image = "https://file1.hutech.edu.vn/file/editor/homepage1/686606-hutech-tuyen-sinh-dao-tao-tu-xa.jpg",
-                            NewUrl = "https://www.hutech.edu.vn/tuyensinh/tin-tuc/tin-tuyen-sinh/14607496-hutech-thong-bao-nhan-ho-so-xet-tuyen-he-dai-hoc-tu-xa-nam-2022-den-ngay-2012",
-                            Title = "HUTECH thông báo nhận hồ sơ xét tuyển hệ Đại học từ xa năm 2022 đến ngày 13/12"
-                        },
-                        new
-                        {
-                            NewId = 2,
-                            Image = "https://file1.hutech.edu.vn/file/editor/homepage1/94304-hutech-tuyen-sinh-dai-hoc-tu-xa.jpg",
-                            NewUrl = "https://www.hutech.edu.vn/tuyensinh/tin-tuc/tin-tuyen-sinh/14606971-hutech-thong-bao-nhan-ho-so-xet-tuyen-he-dai-hoc-tu-xa-nam-2022-den-ngay-3011",
-                            Title = "HUTECH thông báo nhận hồ sơ xét tuyển hệ Đại học từ xa năm 2022 đến ngày 30/11"
-                        },
-                        new
-                        {
-                            NewId = 3,
-                            Image = "https://file1.hutech.edu.vn/file/editor/tuyensinh/903160-sinh-vien-hutech-tim-hieu-ve-linh-vuc-fintech-cung-nha-sang-lap-bin-corporation-group16.jpg",
-                            NewUrl = "https://www.hutech.edu.vn/homepage/tin-tuc/tin-hutech/14607649-sinh-vien-hutech-tim-hieu-ve-linh-vuc-fintech-cung-nha-sang-lap-bin-corporation-group",
-                            Title = "Sinh viên HUTECH tìm hiểu về lĩnh vực FINTECH cùng nhà sáng lập BIN Corporation Group"
-                        });
                 });
 
             modelBuilder.Entity("Data.Entities.Rating", b =>

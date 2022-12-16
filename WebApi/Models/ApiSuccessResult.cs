@@ -5,6 +5,7 @@ public class ApiSuccessResult<T> : ApiResult<T>
     {
         IsSuccess = true;
         ResultObj = resultObj;
+        Message = "Success";
     }
 
     public ApiSuccessResult()

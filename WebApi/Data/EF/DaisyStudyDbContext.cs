@@ -13,11 +13,16 @@ namespace Data.EF
         {
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new CategoryConfiguration());
+            modelBuilder.ApplyConfiguration(new CommentConfiguration());
             modelBuilder.ApplyConfiguration(new ContactConfiguration());
             modelBuilder.ApplyConfiguration(new CourseConfiguration());
             modelBuilder.ApplyConfiguration(new CourseMemberConfiguration());
             modelBuilder.ApplyConfiguration(new LessonConfiguration());
             modelBuilder.ApplyConfiguration(new RatingConfiguration());
+            modelBuilder.ApplyConfiguration(new NewConfiguration());
+
+            User.Seed(modelBuilder);
+            New.Seed(modelBuilder);
 
         }
 
@@ -29,6 +34,7 @@ namespace Data.EF
         public DbSet<CourseMember> CourseMembers { set; get; } = default!;
         public DbSet<Lesson> Lessons { set; get; } = default!;
         public DbSet<Rating> Ratings { set; get; } = default!;
+        public DbSet<New> News { set; get; } = default!;
 
     }
 }
