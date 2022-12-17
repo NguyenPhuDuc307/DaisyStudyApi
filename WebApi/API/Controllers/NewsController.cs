@@ -38,4 +38,11 @@ public class NewsController : ControllerBase
         var result = await _NewService.Delete(Id);
         return Ok(result);
     }
+
+    [HttpPut("{Id}")]
+    public async Task<IActionResult> Update(int Id, [FromForm] NewRequest request)
+    {
+        var result = await _NewService.Update(Id, request);
+        return Ok(result);
+    }
 }
