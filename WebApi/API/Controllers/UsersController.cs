@@ -22,11 +22,17 @@ public class UsersController : ControllerBase
             return BadRequest(ModelState);
 
         var result = await _userService.Register(request);
-        if (result == 0)
-        {
-            return BadRequest();
-        }
-        return Ok();
+        return Ok(result);
+    }
+
+    [HttpPost("confirmEmail")]
+    public async Task<IActionResult> ConfirmEmail([FromQuery] string? Email, int Code)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        var result = await _userService.ConfirmEmail(Email, Code);
+        return Ok(result);
     }
 
     [HttpPost("login")]
@@ -36,10 +42,20 @@ public class UsersController : ControllerBase
             return BadRequest(ModelState);
 
         var result = await _userService.Login(request);
-        if (result == null)
-        {
-            return BadRequest();
-        }
+        return Ok(result);
+    }
+
+    [HttpDelete("{Email}")]
+    public async Task<IActionResult> Delete(string Email)
+    {
+        var result = await _userService.Delete(Email);
+        return Ok(result);
+    }
+
+    [HttpGet("getAll")]
+    public async Task<IActionResult> GetAll()
+    {
+        var result = await _userService.GetAll();
         return Ok(result);
     }
 }

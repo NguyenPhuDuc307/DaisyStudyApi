@@ -1,13 +1,14 @@
-using Data.Entities;
 using Models;
 
-namespace Application.Users
+namespace Application.Users;
+
+public interface IUserService
 {
-    public interface IUserService
-    {
-        Task<int> Register (RegisterRequest request);
-        Task<User?> Login (LoginRequest request);
-        Task<User?> GetByEmail (string Email);
-        Task<User?> GetById (Guid Id);
-    }
+    Task<ApiResult<int>> Register(RegisterRequest request);
+    Task<ApiResult<int>> ConfirmEmail(string? Email, int Code);
+    Task<ApiResult<int>> Delete(string? Email);
+    Task<ApiResult<UserViewModel>> Login(LoginRequest request);
+    Task<ApiResult<IEnumerable<UserViewModel>>> GetAll();
+    Task<ApiResult<UserViewModel>> GetByEmail(string Email);
+    Task<ApiResult<UserViewModel>> GetById(int Id);
 }

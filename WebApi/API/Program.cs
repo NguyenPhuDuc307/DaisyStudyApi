@@ -1,19 +1,43 @@
-﻿using Application.Users;
+﻿using Application.Categories;
+using Application.Comments;
+using Application.Contacts;
+using Application.Courses;
+using Application.FileStorages;
+using Application.Lessons;
+using Application.News;
+using Application.Ratings;
+using Application.Users;
 using DaisyStudy.Utilities.Constants;
 using Data.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<DaisyStudyDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString(SystemConstants.MainConnectionString)
-    ?? throw new InvalidOperationException("Connection string 'DaisyStudyDbContext' not found.")));
+
+builder.Services.AddDbContext<DaisyStudyDbContext>(
+        options => options.UseSqlServer(builder.Configuration.GetConnectionString(SystemConstants.MainConnectionString) 
+            ?? throw new InvalidOperationException("Connection string 'DaisyStudyDbContext' not found."),
+        providerOptions => providerOptions.EnableRetryOnFailure()));
 
 // Declare DI
 builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<IContactService, ContactService>();
+builder.Services.AddTransient<ICategoryService, CategoryService>();
+builder.Services.AddTransient<ICourseService, CourseService>();
+builder.Services.AddTransient<ICommentService, CommentService>();
+builder.Services.AddTransient<ILessonService, LessonService>();
+builder.Services.AddTransient<IRatingService, RatingService>();
+builder.Services.AddTransient<INewService, NewService>();
+builder.Services.AddTransient<IFileStorageService, FileStorageService>();
+
+builder.Services.AddCors(c =>
+            {
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
+            });
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
 
 builder.Services.AddSwaggerGen(c =>
 {
@@ -35,7 +59,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthorization();
+app.UseAuthentication();
+app.UseAuthorization(); // Add it here
 
 app.UseSwagger();
 

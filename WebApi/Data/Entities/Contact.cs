@@ -11,6 +11,7 @@ namespace Data.Entities
         public string? Email { set; get; }
         public string? PhoneNumber { set; get; }
         public string? Message { set; get; }
+        public string? Reply { set; get; }
     }
 
     public class ContactConfiguration : IEntityTypeConfiguration<Contact>

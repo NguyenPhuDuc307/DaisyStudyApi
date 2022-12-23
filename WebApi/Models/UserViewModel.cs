@@ -8,12 +8,21 @@ public class RegisterRequest
     public DateTime Dob { get; set; }
     public string? Email { get; set; }
     public string? Password { get; set; }
+    public string? PasswordCF { get; set; }
 }
 
 public class LoginRequest
 {
-    [Required]
     public string? Email { get; set; }
-    [Required]
     public string? Password { get; set; }
+}
+
+public class UserViewModel
+{
+    public int UserId { get; set; }
+    public string? FullName { get; set; }
+
+    [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+    public DateTime Dob { get; set; }
+    public string? Email { get; set; }
 }
